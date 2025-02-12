@@ -5,11 +5,12 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import { ChatService } from '../../supabase/chat.service';
 import { Ichat } from '../../interface/chat-response';
 import { DatePipe } from '@angular/common';
+import { DeleteModalComponent } from '../../layout/delete-modal/delete-modal.component';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [ReactiveFormsModule, DatePipe ],
+  imports: [ReactiveFormsModule, DatePipe, DeleteModalComponent ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
@@ -61,5 +62,9 @@ export class ChatComponent {
     }).catch((err) => {
       alert(err.message)
     }); 
+  }
+
+  openDropDown(msg: Ichat) {
+    this.chat_service.selectedChats(msg); 
   }
 }
