@@ -17,8 +17,8 @@ export class AuthService {
       auth: { autoRefreshToken: false }
     });
     this.supabase.auth.onAuthStateChange((event, session) => {
-      console.log("event", event); 
-      console.log("session", session);
+      // console.log("event", event); 
+      // console.log("session", session);
       if (typeof window !== 'undefined') 
         localStorage.setItem('session', JSON.stringify(session?.user)); 
 
