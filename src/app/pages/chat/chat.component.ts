@@ -6,11 +6,12 @@ import { ChatService } from '../../supabase/chat.service';
 import { Ichat } from '../../interface/chat-response';
 import { DatePipe } from '@angular/common';
 import { DeleteModalComponent } from '../../layout/delete-modal/delete-modal.component';
+import { ChannelListComponent } from '../../layout/channel-list/channel-list.component';
 
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [ReactiveFormsModule, DatePipe, DeleteModalComponent ],
+  imports: [ReactiveFormsModule, DatePipe, DeleteModalComponent, ChannelListComponent ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
