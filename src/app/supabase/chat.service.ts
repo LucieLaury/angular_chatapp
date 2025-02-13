@@ -10,11 +10,13 @@ export class ChatService {
 
   private supabase!: SupabaseClient ; 
   public savedChat = signal({}); 
+  public messages = signal<Ichat[]>([]); 
   
   constructor() { 
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey, {
       auth: { autoRefreshToken: false }
     });
+    this.listenToNewMessages(); 
   }
 
   async chatMessage(text: string){
@@ -32,12 +34,12 @@ export class ChatService {
 
   async listChat(){
     try {
-      //recuperation des chats de l'user authentifié 
       const {data, error} = await this.supabase.from('chat').select('*, users(*)');
       if(error){
         alert(error.message);
       }
-      return data; 
+      this.messages.set(data || []); 
+      return data; ;
     } catch (error) {
       throw error; 
     }
@@ -51,5 +53,15 @@ export class ChatService {
   selectedChats(msg: Ichat) {
     this.savedChat.set(msg); 
 
+  }
+
+  private listenToNewMessages() {
+    this.supabase
+    .channel('chat-room')
+    .on('postgres_changes', {event: 'INSERT', schema: 'public', table: 'chat'}, (payload) => {
+      console.log('nouveau message reçu : ', payload.new);
+      this.messages.set([...this.messages(), payload.new as Ichat])
+    })
+    .subscribe(); 
   }
 }

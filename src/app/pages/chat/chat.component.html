@@ -8,7 +8,8 @@
   
           <div class="col-12 col-lg-12 col-xl-12">
 
-            @for (msg of this.chats(); track msg) {
+            <!-- @for (msg of this.chats(); track msg) { -->
+             @for (msg of messages$(); track msg) {
             <div class="position-relative">
               <div class="chat-messages p-4">
                 <div class="chat-message-left pb-4">

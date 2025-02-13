@@ -21,16 +21,18 @@ export class ChatComponent {
   private chat_service = inject(ChatService); 
 
   chatForm!: FormGroup; 
-  chats = signal<Ichat[]>([]); 
+  // chats = signal<Ichat[]>([]); 
+  messages$ = this.chat_service.messages; 
   
   constructor() {
     this.chatForm = this.fb.group({
       chat_message: ['', Validators.required]
     })
 
-    effect(() => {
-      this.onListChat()
-    })
+    // effect(() => {
+    //   this.onListChat()
+    // })
+    this.chat_service.listChat(); 
   }
 
   async logOut() {
@@ -41,28 +43,36 @@ export class ChatComponent {
 
   onSubmit() {
     const formValue = this.chatForm.value.chat_message
-    this.chat_service.chatMessage(formValue).then((response) => {
-      console.log(response);
+    // this.chat_service.chatMessage(formValue).then((response) => {
+    //   console.log(response);
+    //   this.chatForm.reset(); 
+    //   this.onListChat(); 
+    // }).catch((err) => {
+    //   alert(err.message)
+    // }); 
+    this.chat_service.chatMessage(formValue).then(() => {
       this.chatForm.reset(); 
-      this.onListChat(); 
-    }).catch((err) => {
-      alert(err.message)
-    }); 
+    })
+    .catch((err) => {
+      alert(err.message); 
+    })
   }
 
-  onListChat(){
-    this.chat_service.listChat()
-    .then((res: Ichat[] | null) => {
-      console.log(res);
-      if(res !== null){
-        this.chats.set(res); 
-      } else {
-        console.log("No messages found");
-      }
-    }).catch((err) => {
-      alert(err.message)
-    }); 
-  }
+  // onListChat(){
+  //   this.chat_service.listChat()
+  //   .then((res: Ichat[] | null) => {
+  //     console.log(res);
+  //     if(res !== null){
+  //       this.chats.set(res); 
+  //       console.log(this.chats);
+
+  //     } else {
+  //       console.log("No messages found");
+  //     }
+  //   }).catch((err) => {
+  //     alert(err.message)
+  //   }); 
+  // }
 
   openDropDown(msg: Ichat) {
     this.chat_service.selectedChats(msg); 
