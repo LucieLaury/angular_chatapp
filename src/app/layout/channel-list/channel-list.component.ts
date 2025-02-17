@@ -11,6 +11,7 @@ export class ChannelListComponent {
   private channel_service = inject(ChannelService); 
   channels$ = this.channel_service.channels; 
   unreadMessages$ = this.channel_service.unreadMessages; 
+  selectedChannel$ = this.channel_service.selectedChannel; 
   constructor () {
     this.channel_service.listChannelsOfConnectedUser(); 
   }

@@ -1,0 +1,16 @@
+.listChannels {
+    li{
+        // background-color: transparent;
+        &.active {
+            // background-color: #708A81;
+            background-color: #DD8E58;
+            border-color: unset;
+            color: white; 
+        }
+    }
+}
+
+.text-bg-info {
+    color: #000 !important;
+    background-color: #E5D1B8 !important;
+}

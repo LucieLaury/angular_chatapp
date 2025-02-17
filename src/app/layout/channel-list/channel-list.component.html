@@ -3,9 +3,10 @@
     <div class="card-header">
       Channels
     </div>
-    <ul class="list-group list-group-flush">
+    <ul class="list-group list-group-flush listChannels">
         @for (channel of channels$(); track channel){
-            <li (click)="updateSelectedChannel(channel.id)" role="button" class="list-group-item">{{channel?.name}}
+            <li (click)="updateSelectedChannel(channel.id)" role="button" class="list-group-item" 
+            [ngClass]="{'active': selectedChannel$() === channel.id}">{{channel?.name}}
               <span class="badge text-bg-info" *ngIf="(unreadMessages$()[channel.id] || 0)>0">{{unreadMessages$()[channel.id]}}</span>
             </li>
         }
