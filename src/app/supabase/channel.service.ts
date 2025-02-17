@@ -11,6 +11,7 @@ export class ChannelService {
   private supabase!: SupabaseClient;
   public channels = signal<Ichannel[]>([]); 
   public selectedChannel = signal<string>(''); 
+  public unreadMessages = signal<{[channel: string]: number}>({});
 
   constructor() {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey, {
@@ -35,7 +36,18 @@ export class ChannelService {
 
    updateSelectedChannel(idChannel: string){
     this.selectedChannel.set(idChannel); 
-    console.log('maj selectedChannel : ', this.selectedChannel());
+    this.unreadMessages.set({
+      ...this.unreadMessages(), 
+      [idChannel]: 0
+    })
+   }
+
+   incrementUnreadMessage(idChannel: string){
+    const currentCount = this.unreadMessages()[idChannel] || 0; 
+    this.unreadMessages.set({
+      ...this.unreadMessages(), 
+      [idChannel]: currentCount + 1
+    })
    }
 
 }

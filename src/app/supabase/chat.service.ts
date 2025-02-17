@@ -66,6 +66,8 @@ export class ChatService {
     .on('postgres_changes', {event: 'INSERT', schema: 'public', table: 'chat'}, (payload) => {
       if(this.channel_service.selectedChannel() == payload.new['channel']) {
         this.messages.set([...this.messages(), payload.new as Ichat])
+      } else {
+        this.channel_service.incrementUnreadMessage(payload.new['channel']); 
       }
     })
     .subscribe(); 

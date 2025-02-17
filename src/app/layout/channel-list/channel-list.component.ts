@@ -1,14 +1,16 @@
 import { Component, inject,  } from '@angular/core';
 import { ChannelService } from '../../supabase/channel.service';
+import { CommonModule } from '@angular/common';
 @Component({
   selector: 'app-channel-list',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './channel-list.component.html',
   styleUrl: './channel-list.component.scss'
 })
 export class ChannelListComponent {
   private channel_service = inject(ChannelService); 
   channels$ = this.channel_service.channels; 
+  unreadMessages$ = this.channel_service.unreadMessages; 
   constructor () {
     this.channel_service.listChannelsOfConnectedUser(); 
   }
