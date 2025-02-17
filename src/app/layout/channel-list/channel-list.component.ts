@@ -7,8 +7,14 @@ import { ChannelService } from '../../supabase/channel.service';
   styleUrl: './channel-list.component.scss'
 })
 export class ChannelListComponent {
-  private chanel_service = inject(ChannelService); 
-  channels$ = this.chanel_service.channels; 
+  private channel_service = inject(ChannelService); 
+  channels$ = this.channel_service.channels; 
+  constructor () {
+    this.channel_service.listChannelsOfConnectedUser(); 
+  }
 
+  updateSelectedChannel(idChannel: string) {
+    this.channel_service.updateSelectedChannel(idChannel); 
+  }
   
 }

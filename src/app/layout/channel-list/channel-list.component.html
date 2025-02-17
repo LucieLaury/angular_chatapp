@@ -1,5 +1,5 @@
 <div>
-    @for (channel of channel$(); track channel){
-        
+    @for (channel of channels$(); track channel){
+        <p (click)="updateSelectedChannel(channel.id)" role="button">{{channel?.name}}</p>
     }
 </div>

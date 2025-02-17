@@ -19,9 +19,9 @@ export class ChatService {
     this.listenToNewMessages(); 
   }
 
-  async chatMessage(text: string){
+  async chatMessage(text: string, idChannel: string){
     try {
-      const {data, error} = await this.supabase.from('chat').insert({text}); 
+      const {data, error} = await this.supabase.from('chat').insert({text, channel: idChannel}); 
 
       if(error) {
         alert(error.message); 
@@ -32,16 +32,19 @@ export class ChatService {
     return null; 
   }
 
-  async listChat(){
-    try {
-      const {data, error} = await this.supabase.from('chat').select('*, users(*)');
-      if(error){
-        alert(error.message);
+  async listChat(idChannel: string){
+    if(idChannel != "") {
+      try {
+        const {data, error} = await this.supabase.from('chat').select('*, users(*)').eq('channel', idChannel);
+        if(error){
+          alert(error.message);
+        }
+        this.messages.set(data || []); 
+      } catch (error) {
+        throw error; 
       }
-      this.messages.set(data || []); 
-      return data; ;
-    } catch (error) {
-      throw error; 
+    } else {
+      this.messages.set([]); 
     }
   }
 
