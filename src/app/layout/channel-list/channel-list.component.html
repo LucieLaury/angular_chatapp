@@ -1,5 +1,11 @@
-<div>
-    @for (channel of channels$(); track channel){
-        <p (click)="updateSelectedChannel(channel.id)" role="button">{{channel?.name}}</p>
-    }
-</div>
+
+<div class="card" style="width: 18rem;">
+    <div class="card-header">
+      Channels
+    </div>
+    <ul class="list-group list-group-flush">
+        @for (channel of channels$(); track channel){
+            <li (click)="updateSelectedChannel(channel.id)" role="button" class="list-group-item">{{channel?.name}}</li>
+        }
+    </ul>
+  </div>

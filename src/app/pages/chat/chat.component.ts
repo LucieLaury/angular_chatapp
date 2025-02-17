@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms'; 
 import { ChatService } from '../../supabase/chat.service';
 import { Ichat } from '../../interface/chat-response';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { DeleteModalComponent } from '../../layout/delete-modal/delete-modal.component';
 import { ChannelListComponent } from '../../layout/channel-list/channel-list.component';
 import { ChannelService } from '../../supabase/channel.service';
@@ -12,7 +12,7 @@ import { ChannelService } from '../../supabase/channel.service';
 @Component({
   selector: 'app-chat',
   standalone: true,
-  imports: [ReactiveFormsModule, DatePipe, DeleteModalComponent, ChannelListComponent ],
+  imports: [ReactiveFormsModule, DatePipe, DeleteModalComponent, ChannelListComponent, CommonModule ],
   templateUrl: './chat.component.html',
   styleUrl: './chat.component.scss'
 })
@@ -26,6 +26,7 @@ export class ChatComponent {
   chatForm!: FormGroup; 
   // chats = signal<Ichat[]>([]); 
   messages$ = this.chat_service.messages; 
+  selectedChannel$ = this.channel_service.selectedChannel; 
   
   constructor() {
     this.chatForm = this.fb.group({
@@ -36,7 +37,6 @@ export class ChatComponent {
     effect(() => {
       const selectedChannelId = this.channel_service.selectedChannel();
       if (selectedChannelId) {
-        // Une fois le channel sélectionné, on charge ses messages
         this.chat_service.listChat(selectedChannelId);
       }
     });

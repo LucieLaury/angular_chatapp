@@ -1,7 +1,8 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { environment } from '../../environments/environment.development';
 import { Ichat } from '../interface/chat-response';
+import { ChannelService } from './channel.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,6 +10,7 @@ import { Ichat } from '../interface/chat-response';
 export class ChatService {
 
   private supabase!: SupabaseClient ; 
+  private channel_service = inject(ChannelService); 
   public savedChat = signal({}); 
   public messages = signal<Ichat[]>([]); 
   
@@ -62,8 +64,9 @@ export class ChatService {
     this.supabase
     .channel('chat-room')
     .on('postgres_changes', {event: 'INSERT', schema: 'public', table: 'chat'}, (payload) => {
-      console.log('nouveau message reçu : ', payload.new);
-      this.messages.set([...this.messages(), payload.new as Ichat])
+      if(this.channel_service.selectedChannel() == payload.new['channel']) {
+        this.messages.set([...this.messages(), payload.new as Ichat])
+      }
     })
     .subscribe(); 
   }

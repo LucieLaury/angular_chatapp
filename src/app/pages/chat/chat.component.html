@@ -7,7 +7,7 @@
 
       
         <app-channel-list></app-channel-list>
-        <div class="card flex-grow-1 h-100">
+        <div *ngIf='selectedChannel$() != ""; else elseBlock' class="card flex-grow-1 h-100">
           <div>
     
             <div class="col-12 col-lg-12 col-xl-12">
@@ -53,6 +53,7 @@
             </div>
           </div>
         </div>
+        <ng-template #elseBlock>Sélectionnez un channel pour afficher les messages</ng-template>
       </div>
     </div>
   </main>
