@@ -1,1 +1,21 @@
-<p>channel-form works!</p>
+<form>
+    <label for="channel_name" class="form-label">Nom du channel : </label>
+    <input type="text" name="channel_name" class="form-control mb-4">
+
+    <label for="channel_participant" class="form-label">Participant(s) : </label>
+    <select name="channel_participant" id="channel_participant" class="form-control mb-4" (change)="addParticipant($event)">
+        <option value="">select</option>
+       
+        @for (user of allUsers$(); track user) {
+        <option value="{{user.id}}">{{user.full_name}}</option>
+        }
+    </select>
+    <div *ngIf="selectedParticipants().length != 0">
+        <ul>
+            @for (participant of selectedParticipants(); track participant) {
+                <li>{{participant.full_name}} <button>X</button></li>
+            }
+        </ul>
+    </div>
+    <button type="submit" class="btn btn-primary">Valider</button>
+</form>
