@@ -6,8 +6,9 @@
       <div class="d-flex flex-column gap-5 flex-md-row">
 
       
-        <app-channel-list></app-channel-list>
-        <app-chats class="flex-grow-1"></app-chats>
+        <app-channel-list (eventshowChannelForm)="handleShowChannelForm()"></app-channel-list>
+        <app-chats *ngIf="!showForm" class="flex-grow-1"></app-chats>
+        <app-channel-form *ngIf="showForm" class="flex-grow-1"></app-channel-form>
       </div>
     </div>
   </main>

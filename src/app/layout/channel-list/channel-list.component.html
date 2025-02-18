@@ -2,7 +2,7 @@
 <div class="card" style="width: 18rem;">
     <div class="card-header d-flex align-items-center">
       Channels
-      <button class="btn btn-secondary ms-auto">+</button>
+      <button (click)="showChannelForm()" class="btn btn-secondary ms-auto">+</button>
     </div>
     <ul class="list-group list-group-flush listChannels">
         @for (channel of channels$(); track channel){

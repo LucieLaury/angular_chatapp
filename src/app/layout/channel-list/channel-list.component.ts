@@ -1,4 +1,4 @@
-import { Component, inject,  } from '@angular/core';
+import { Component, EventEmitter, inject, Output,  } from '@angular/core';
 import { ChannelService } from '../../supabase/channel.service';
 import { CommonModule } from '@angular/common';
 @Component({
@@ -12,12 +12,19 @@ export class ChannelListComponent {
   channels$ = this.channel_service.channels; 
   unreadMessages$ = this.channel_service.unreadMessages; 
   selectedChannel$ = this.channel_service.selectedChannel; 
+
+  @Output() eventshowChannelForm = new EventEmitter(); 
+
   constructor () {
     this.channel_service.listChannelsOfConnectedUser(); 
   }
 
   updateSelectedChannel(idChannel: string) {
     this.channel_service.updateSelectedChannel(idChannel); 
+  }
+
+  showChannelForm() {
+    this.eventshowChannelForm.emit(); 
   }
   
 }
